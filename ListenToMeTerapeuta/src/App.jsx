@@ -2,12 +2,11 @@
 
 import React, { useState, useEffect } from 'react'
 import { motion } from 'framer-motion'
-import { BrowserRouter as Router, Route, Routes, useLocation, Link } from 'react-router-dom'
+import { BrowserRouter as Router, Route, Routes, useLocation, Link, useNavigate } from 'react-router-dom'
 import { Home, Calendar, MessageSquare, Settings } from 'lucide-react'
-
-const Inicio = () => <div>Inicio</div>
-const Agenda = () => <div>Agenda</div>
-const Mensajes = () => <div>Mensajes</div>
+import Inicio from './components/Home'
+import Agenda from './components/Agenda'
+import Mensajes from './components/Mensajes'
 
 function LandingPage() {
   const [text, setText] = useState('');
@@ -50,7 +49,7 @@ function LandingPage() {
             {text}
           </h2>
           <p className="text-lg md:text-xl text-blue-700">
-          Nuestra plataforma conecta a pacientes con psicólogos calificados, ofreciendo terapia en línea de forma rápida, segura y accesible. Con un sistema sencillo de reservas y atención personalizada, facilitamos el acceso al apoyo emocional desde cualquier lugar. ¡Tu bienestar mental, a solo un clic!
+            Nuestra plataforma conecta a pacientes con psicólogos calificados, ofreciendo terapia en línea de forma rápida, segura y accesible. Con un sistema sencillo de reservas y atención personalizada, facilitamos el acceso al apoyo emocional desde cualquier lugar. ¡Tu bienestar mental, a solo un clic!
           </p>
           <Link to="/crear-cuenta" className="inline-block px-6 md:px-8 py-3 bg-blue-600 text-white rounded-full text-lg md:text-xl hover:bg-blue-700 transition duration-300">
             Comenzar ahora
@@ -61,36 +60,35 @@ function LandingPage() {
           whileHover={{ y: -10, scale: 1.05 }}
           transition={{ type: 'spring', stiffness: 300 }}
         >
-        
           <img
             src="/src/assets/Example_1.png" 
             alt="Personas usando la plataforma"
             className="rounded-lg relative z-10"
           />
         </motion.div>
-
       </main>
     </div>
   );
 }
-
-
 
 function CreateAccount() {
   const [formData, setFormData] = useState({
     name: '',
     email: '',
     password: '',
-  })
+  });
+
+  const navigate = useNavigate(); 
 
   const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value })
-  }
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
 
   const handleSubmit = (e) => {
-    e.preventDefault()
-    console.log('Form submitted:', formData)
-  }
+    e.preventDefault();
+    console.log('Form submitted:', formData);
+    navigate('/inicio');
+  };
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-blue-100 to-blue-200 flex items-center justify-center">
@@ -142,23 +140,26 @@ function CreateAccount() {
         </p>
       </div>
     </div>
-  )
+  );
 }
 
 function Login() {
   const [formData, setFormData] = useState({
     email: '',
     password: '',
-  })
+  });
+
+  const navigate = useNavigate(); 
 
   const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value })
-  }
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
 
   const handleSubmit = (e) => {
-    e.preventDefault()
-    console.log('Form submitted:', formData)
-  }
+    e.preventDefault();
+    console.log('Form submitted:', formData);
+    navigate('/inicio');
+  };
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-blue-100 to-blue-200 flex items-center justify-center">
@@ -198,32 +199,32 @@ function Login() {
         </p>
       </div>
     </div>
-  )
+  );
 }
 
 function Sidebar() {
-  const location = useLocation()
-  const isMessagesRoute = location.pathname.startsWith('/mensajes')
+  const location = useLocation();
+  const isMessagesRoute = location.pathname.startsWith('/mensajes');
 
   const navItems = [
-    { icon: <Home size={24} />, text: 'Inicio', path: '/' },
-    { icon: <Calendar size={24} />, text: 'Agenda', path: '/agenda' },
-    { icon: <MessageSquare size={24} />, text: 'Mensajes', path: '/mensajes' },
-    { icon: <Settings size={24} />, text: 'Configuración', path: '/configuracion' },
-  ]
+    { icon: <Home size={24} className="text-white" />, text: 'Inicio', path: '/inicio' },
+    { icon: <Calendar size={24} className="text-white" />, text: 'Agenda', path: '/agenda' },
+    { icon: <MessageSquare size={24} className="text-white" />, text: 'Mensajes', path: '/mensajes' },
+    { icon: <Settings size={24} className="text-white" />, text: 'Configuración', path: '/configuracion' },
+  ];
 
-  const shouldHideSidebar = ['/', '/crear-cuenta', '/iniciar-sesion'].includes(location.pathname)
+  const shouldHideSidebar = ['/', '/crear-cuenta', '/iniciar-sesion'].includes(location.pathname);
 
-  if (shouldHideSidebar) return null
+  if (shouldHideSidebar) return null;
 
   return (
-    <div className="h-full w-48 bg-gray-100 shadow-lg">
+    <div className="h-full w-48 bg-blue-700 shadow-lg">
       <nav className="space-y-4 mt-10">
         {navItems.map((item) => (
           <Link
             key={item.path}
             to={item.path}
-            className={`block p-4 rounded-md flex items-center space-x-4 ${isMessagesRoute && item.text === 'Mensajes' ? 'bg-blue-600 text-white' : 'text-gray-800 hover:bg-gray-200'
+            className={`block p-4 rounded-md flex items-center space-x-4 ${isMessagesRoute && item.text === 'Mensajes' ? 'bg-blue-600 text-white' : 'text-white hover:bg-blue-700'
               }`}
           >
             {item.icon}
@@ -232,8 +233,9 @@ function Sidebar() {
         ))}
       </nav>
     </div>
-  )
+  );
 }
+
 
 function App() {
   return (
@@ -243,6 +245,7 @@ function App() {
         <div className="flex-grow">
           <Routes>
             <Route path="/" element={<LandingPage />} />
+            <Route path='/inicio' element={<Inicio />} />
             <Route path="/crear-cuenta" element={<CreateAccount />} />
             <Route path="/iniciar-sesion" element={<Login />} />
             <Route path="/agenda" element={<Agenda />} />
@@ -254,4 +257,4 @@ function App() {
   )
 }
 
-export default App
+export default App;

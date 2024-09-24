@@ -11,7 +11,7 @@ const Mensajes = () => <div>Mensajes</div>
 
 function LandingPage() {
   const [text, setText] = useState('');
-  const fullText = "Gestiona tu presencia digital sin esfuerzo.";
+  const fullText = "Gestiona tus pacientes";
   const [isTextComplete, setIsTextComplete] = useState(false);
 
   useEffect(() => {
@@ -23,7 +23,7 @@ function LandingPage() {
           i++;
         } else {
           clearInterval(typingEffect);
-          setIsTextComplete(true); 
+          setIsTextComplete(true);
         }
       }, 50);
 
@@ -50,24 +50,25 @@ function LandingPage() {
             {text}
           </h2>
           <p className="text-lg md:text-xl text-blue-700">
-            Nuestra plataforma te permite administrar tu marca digital y redes sociales en un solo lugar.
-            Planifica, analiza y programa tu contenido para ahorrar tiempo y hacer crecer tu negocio.
+          Nuestra plataforma conecta a pacientes con psicólogos calificados, ofreciendo terapia en línea de forma rápida, segura y accesible. Con un sistema sencillo de reservas y atención personalizada, facilitamos el acceso al apoyo emocional desde cualquier lugar. ¡Tu bienestar mental, a solo un clic!
           </p>
           <Link to="/crear-cuenta" className="inline-block px-6 md:px-8 py-3 bg-blue-600 text-white rounded-full text-lg md:text-xl hover:bg-blue-700 transition duration-300">
             Comenzar ahora
           </Link>
         </div>
         <motion.div
-          className="md:w-1/2 mt-8 md:mt-0"
+          className="md:w-1/2 mt-8 md:mt-0 relative overflow-hidden"
           whileHover={{ y: -10, scale: 1.05 }}
           transition={{ type: 'spring', stiffness: 300 }}
         >
+        
           <img
-            src="/placeholder.svg?height=400&width=600"
+            src="/src/assets/Example_1.png" 
             alt="Personas usando la plataforma"
-            className="rounded-lg shadow-xl"
+            className="rounded-lg relative z-10"
           />
         </motion.div>
+
       </main>
     </div>
   );
@@ -222,9 +223,8 @@ function Sidebar() {
           <Link
             key={item.path}
             to={item.path}
-            className={`block p-4 rounded-md flex items-center space-x-4 ${
-              isMessagesRoute && item.text === 'Mensajes' ? 'bg-blue-600 text-white' : 'text-gray-800 hover:bg-gray-200'
-            }`}
+            className={`block p-4 rounded-md flex items-center space-x-4 ${isMessagesRoute && item.text === 'Mensajes' ? 'bg-blue-600 text-white' : 'text-gray-800 hover:bg-gray-200'
+              }`}
           >
             {item.icon}
             <span>{item.text}</span>

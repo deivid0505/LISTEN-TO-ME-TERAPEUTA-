@@ -164,7 +164,7 @@ function Login() {
   return (
     <div className="min-h-screen bg-gradient-to-b from-blue-100 to-blue-200 flex items-center justify-center">
       <div className="bg-white p-8 rounded-lg shadow-xl w-full max-w-md">
-        <h2 className="text-3xl font-bold text-blue-800 mb-6">Iniciar sesión</h2>
+        <h2 className="text-3xl font-bold tsext-blue-800 mb-6">Iniciar sesión</h2>
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
             <label htmlFor="email" className="block text-sm font-medium text-gray-700">Email</label>
@@ -204,7 +204,6 @@ function Login() {
 
 function Sidebar() {
   const location = useLocation();
-  const isMessagesRoute = location.pathname.startsWith('/mensajes');
 
   const navItems = [
     { icon: <Home size={24} className="text-white" />, text: 'Inicio', path: '/inicio' },
@@ -218,14 +217,13 @@ function Sidebar() {
   if (shouldHideSidebar) return null;
 
   return (
-    <div className="h-full w-48 bg-blue-700 shadow-lg">
-      <nav className="space-y-4 mt-10">
+    <div className="h-full w-48 bg-blue-700 shadow-lg ">
+      <nav className="space-y-4 mt-10 text-white hover:bg-blue-700">
         {navItems.map((item) => (
           <Link
             key={item.path}
             to={item.path}
-            className={`block p-4 rounded-md flex items-center space-x-4 ${isMessagesRoute && item.text === 'Mensajes' ? 'bg-blue-600 text-white' : 'text-white hover:bg-blue-700'
-              }`}
+            className={'block p-4 rounded-md flex items-center space-x-4 text-white hover:bg-blue-600'}
           >
             {item.icon}
             <span>{item.text}</span>
